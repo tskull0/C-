@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Skulley_M3_Battleship
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+        }
+    }
+   public class Ship
+    {
+        private Position[] positions;
+        private int length;
+        private ConsoleColor color;
+        private bool sunk;
+        public virtual bool IsBattleShip { get; set; }
+
+        //Position is composed of an X and Y coordinate – you should create a struct to encapsulate this.
+        public struct Position
+        {
+            public int X;
+            public int Y;
+        }
+        public enum Direction
+        {
+            HORIZONTAL, VERTICAL
+        }
+        public Ship(int length, ConsoleColor color)
+        {
+            this.length = length;
+            this.color = color;
+            sunk = false;
+            this.positions = new Position[length];
+        }
+        //The constructor for each inherited type should set this to the correct length for the ship type.
+        //The constructor for each inherited type should set this to a different ConsoleColor for drawing.
+        public class Destroyer : Ship
+            {
+            public Destroyer() : base(2, ConsoleColor.Yellow)
+            {
+
+            }
+        }
+        public class Battleship: Ship
+        {
+            public Battleship() : base(4, ConsoleColor.Blue)
+            {
+                
+            }
+        }
+        public class Carrier : Ship
+        {
+            public Carrier() : base(5, ConsoleColor.Red)
+            {
+
+            }
+        }
+        public class Submarine : Ship
+        {
+            public Submarine() : base(3, ConsoleColor.Green)
+            {
+
+            }
+        }
+        public class Cruiser : Ship
+        {
+            public Cruiser() : base(3, ConsoleColor.Gray)
+            {
+
+            }
+        }
+        public int GetLength()
+        {
+            return this.length;
+        }
+        public ConsoleColor GetConsoleColor()
+        {
+            return this.color;
+        }
+        //Position
+        public void Place(Position start, Direction direction)
+        {
+            for (int i = 0; i < this.length; i++)
+            {
+                if (direction == Direction.HORIZONTAL)
+                {
+                    Position newPos = new Position();
+                    newPos.X = start.Y;
+                    newPos.Y = start.X + i;
+                    this.positions[i] = newPos;
+                }
+                else
+                {
+                    Position newPos = new Position();
+                    newPos.X = start.Y + i;
+                    newPos.Y = start.X;
+                    this.positions[i] = newPos;
+                }
+            }
+        }
+        //This method should reset the members to their empty defaults
+        public virtual void Reset()
+        {
+            this.positions = new Position[length];
+            this.sunk = false;
+        }
+    }
+}
